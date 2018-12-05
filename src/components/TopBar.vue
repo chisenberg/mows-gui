@@ -26,12 +26,12 @@
 						<option value='years'>anos</option>
 					</select>
 				</div>
-				<div class="btn" id="btn_update"></div>
+				<div class="btn" id="btn_update" @click="$emit('refresh')"></div>
 			</div>
 
 			<div id="btn_box_right">
 				<!--div class="btn" id="btn_min"></div-->
-				<div class="btn" id="btn_close"></div>
+				<!-- <div class="btn" id="btn_close"></div> -->
 			</div>	
 
 		</div>

@@ -12,6 +12,7 @@
 </template>
 
 <style>
+
 .box {
   background-color: #222;
   display: block;
@@ -45,7 +46,7 @@
   padding-top: 0px;
   text-align: center;
   line-height: 46px;
-  /*text-shadow: 1px 1px 3px #111;*/
+  text-shadow: 1px 1px 3px #111;
 }
 .box_value_small {
   color: #ccc;
@@ -54,8 +55,8 @@
   font-weight: normal;
   padding-top: 0px;
   text-align: center;
-  line-height: 32px;
-  /*text-shadow: 1px 1px 3px #111;*/
+  line-height: 34px;
+  text-shadow: 1px 1px 3px #111;
 }
 
 .box_value_sub {
@@ -67,8 +68,8 @@
   padding-top: 0px;
   text-align: center;
   width: 40px;
-  line-height: 18px;
-  /*text-shadow: 1px 1px  3px #111;*/
+  line-height: 14px;
+  text-shadow: 1px 1px  3px #111;
 }
 </style>
 
