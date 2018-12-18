@@ -2,7 +2,7 @@
   <div id="app">
 
     <!-- Top Bar -->
-    <top-bar @refresh="refresh"/>
+    <top-bar @refresh="refresh" :dates="dates" @update="updateDates"/>
 
     <!-- Main Content -->
     <div class="content">
@@ -18,7 +18,7 @@
       </div>
       
       <div id="chart_container">
-        <graph :data="graphData"/>
+        <graph :data="responseData"/>
       </div>
 
     </div>
@@ -32,6 +32,7 @@
 const axios = require('axios');
 const moment = require('moment');
 import Chart from 'chart.js';
+
 import TopBar from "./components/TopBar.vue";
 import Box from "./components/Box.vue";
 import Graph from "./components/Graph.vue";
@@ -45,6 +46,12 @@ export default {
 
   data: function() {
     return {
+
+      dates: {
+        start: null,
+        end: null
+      },
+
       temp: null,
       tempMin: null,
       tempMax: null,
@@ -52,7 +59,7 @@ export default {
       humidMin: null,
       humidMax: null,
 
-      graphData: [],
+      responseData: [],
 
       lastUpdate: null,
 
@@ -67,12 +74,14 @@ export default {
       baseURL: 'http://192.168.25.2/api',
     });
 
+    this.dates.start = moment().subtract(1, 'days').format('DD/MM/YYYY');
+    this.dates.end = moment().format('DD/MM/YYYY');
+
     this.refresh();
-    this.getPeriod();
     
-    setInterval(()=>{
-      this.refresh();
-    },10000);
+    // setInterval(()=>{
+    //   this.refresh();
+    // },10000);
 
   },
 
@@ -85,6 +94,13 @@ export default {
   },
 
   methods: {
+
+    updateDates(newDates) {
+      console.log(newDates);
+      this.dates.start = newDates.start;
+      this.dates.end = newDates.end;
+      this.refresh();
+    },
 
     refresh () {
       var self = this;
@@ -99,18 +115,21 @@ export default {
         self.humidMax = data.humidMax;
         self.lastUpdate = moment(data.time, "YYYYMMDDHHmm");
       });
+
+      this.getPeriod();
     },
 
     getPeriod: function () {
+      var self = this;
       this.api.get('/period', {
         params: {
-          start: '04/12/2018',
-          end: '04/12/2018',
+          start: self.dates.start,
+          end: self.dates.end,
           filter: 'hours'
         }
       })
       .then((response) => {
-        this.graphData = response.data;
+        this.responseData = response.data;
       });
     }
     
@@ -132,24 +151,22 @@ body {
 }
 
 #content{
-	float:left;
-	display:block;
-	width: 100%;
+  float:left;
+  display:block;
+  width: 100%;
 }
 
 
 #box_container{
-	display: block;
-	float:left;
-	width:	88px;
+  display: block;
+  float:left;
+  width:	88px;
 }
 
 #chart_container{
-	display: block;
-	float:left;
-	width:	 calc(100% - 98px);
-	height: 100%;
+  display: block;
+  float:left;
+  width:	 calc(100% - 98px);
+  height: 100%;
 }
-
-
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <canvas id="myChart" :width="width" :height="height"></canvas>
+  <canvas id="chart" :width="width" :height="height"></canvas>
 </template>
 
 <style>
@@ -21,6 +21,8 @@ export default {
 
   data: function () {
     return {
+      chart: null,
+
       timeLabels: [],
       rainData: [],
       tempData: [],
@@ -31,8 +33,11 @@ export default {
   watch: { 
     data: function(newData) {
       this.updateData(newData);
-      this.redraw();
     }
+  },
+
+  ready: function () {
+    
   },
 
   methods: {
@@ -48,53 +53,72 @@ export default {
         this.tempData.push(d.temperature);
         this.humidData.push(d.humidity);
       });
+      this.redraw();
     },
 
     redraw: function () {
-      
-      var ctx = document.getElementById("myChart").getContext("2d");
-        var myChart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-              labels: this.timeLabels,
-              datasets: [
-                {
-                  label: 'Temperature',
-                  type: 'line',
-                  fill: false,
-                  data: this.tempData,
-                  backgroundColor: '#1bf162',
-                  borderColor: '#1bf162',
-                  borderWidth: 2
-                },{
-                  label: 'Humidity',
-                  type: 'line',
-                  fill: false,
-                  data: this.humidData,
-                  backgroundColor: '#fb8b27',
-                  borderColor: '#fb8b27',
-                  borderWidth: 2
-                },{
-                  label: 'Rain',
-                  data: this.rainData,
-                  backgroundColor: '#18afd5',
-                  borderColor: '#18afd5',
-                  borderWidth: 1
-                },
-              ]
+      if(this.chart) {
+        this.chart.destroy();
+      }
+      var ctx = document.getElementById("chart").getContext("2d");
+      this.chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: this.timeLabels,
+          datasets: [
+            {
+              label: 'Temperatura',
+              type: 'line',
+              fill: false,
+              data: this.tempData,
+              backgroundColor: '#1bf162',
+              borderColor: '#1bf162',
+              borderWidth: 2
+            },{
+              label: 'Umidade',
+              type: 'line',
+              fill: false,
+              data: this.humidData,
+              backgroundColor: '#fb8b27',
+              borderColor: '#fb8b27',
+              borderWidth: 2
+            },{
+              label: 'Pressão',
+              data: this.rainData,
+              backgroundColor: '#f13c38',
+              borderColor: '#f13c38',
+              borderWidth: 1
+            },{
+              label: 'Vento',
+              data: this.rainData,
+              backgroundColor: '#ccc',
+              borderColor: '#ccc',
+              borderWidth: 1
+            },{
+              label: 'Chuva',
+              data: this.rainData,
+              backgroundColor: '#18afd5',
+              borderColor: '#18afd5',
+              borderWidth: 1
+            },
+          ]
+        },
+        options: {
+          scales: {
+            xAxes: [{
+              maxBarThickness: 20,
+            }]
           },
-          options: {
-            scales: {
-              xAxes: [{
-                maxBarThickness: 20,
-              }],
+          legend: {
+            display: true,
+            position: 'top',
+            labels: {
+                fontColor: '#ccc'
             }
           }
+        }
       });
-
     }
-
-
   },
 
 
