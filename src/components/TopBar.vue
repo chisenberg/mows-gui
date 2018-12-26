@@ -1,57 +1,77 @@
 <template>
   <div id='bar'>
-      <div id="btn_box_left">
-        <div class="btn btn_selected" id="btn_graph"></div>
-        <div class="btn" id="btn_table"></div>
-        <div class="btn" id="btn_settings"></div>
-        <div class='btn_date'>
-          <select id='datepreset' class='date_filter'>
-            <option value='hoje'>hoje</option>
-            <option value='2dias'>2 dias</option>
-            <option value='7dias'>7 dias</option>
-            <option value='30dias'>30 dias</option>
-            <option value='outro'>outro?</option>
-          </select>
-        </div>
-        <div class='btn_date'>
-          <input title='Início' class='date_input' v-model="dates.start" @blur="$emit('update', dates)"/>
-          <input title='Fim' class='date_input' v-model="dates.end" @blur="$emit('update', dates)" />
-        </div>
-        <div class='btn_date'>
-          <select id='datefilter' class='date_filter'>
-            <option value='mins'>10min</option>
-            <option value='hours'>horas</option>
-            <option value='days'>dias</option>
-            <option value='months'>meses</option>
-            <option value='years'>anos</option>
-          </select>
-        </div>
-        <div class="btn" id="btn_update" @click="$emit('refresh')"></div>
+
+    <div id="btn_box_left">
+      <div class="btn btn_selected" id="btn_graph"></div>
+      <div class="btn" id="btn_table"></div>
+      <div class="btn" id="btn_settings"></div>
+      <div class='btn_date'>
+        <select id='datepreset' class='date_filter'>
+          <option value='hoje'>hoje</option>
+          <option value='2dias'>2 dias</option>
+          <option value='7dias'>7 dias</option>
+          <option value='30dias'>30 dias</option>
+          <option value='outro'>outro?</option>
+        </select>
       </div>
-
-      <div id="btn_box_right">
-        <!--div class="btn" id="btn_min"></div-->
-        <!-- <div class="btn" id="btn_close"></div> -->
-      </div>	
-
+      <div class='btn_date'>
+        <input title='Início' class='date_input' v-model="start" @blur="refresh"/>
+        <input title='Fim' class='date_input' v-model="end" @blur="refresh" />
+      </div>
+      <div class='btn_date'>
+        <select id='datefilter' class='date_filter' v-model="filter" @change="refresh">
+          <option value='mins'>10min</option>
+          <option selected value='hours'>horas</option>
+          <option value='days'>dias</option>
+          <option value='months'>meses</option>
+          <option value='years'>anos</option>
+        </select>
+      </div>
+      <div class="btn" id="btn_update" @click="refresh"></div>
     </div>
+
+    <!-- <div id="btn_box_right">
+      <div class="btn" id="btn_min"></div>
+      <div class="btn" id="btn_close"></div>
+    </div>	 -->
+
+  </div>
 </template>
 
 
 <script>
+
+const moment = require('moment');
+
 export default {
-  props: {
+  
+  data: function() {
+    return { 
+        start: '',
+        end: '',
+        filter: ''
+    };
+  },
 
-    dates: {
-      start: '',
-      end: ''
+  mounted: function() {
+    this.start = moment().subtract(1, 'days').format('DD/MM/YYYY');
+    this.end = moment().format('DD/MM/YYYY');
+    this.filter = 'hours';
+    this.refresh();
+  },
+
+  methods: {
+    refresh() {
+      this.$emit('update', {
+        'start': this.start,
+        'end': this.end,
+        'filter': this.filter
+      });
     }
-
   }
+
 };
 </script>
-
-
 
 <style>
 
@@ -132,8 +152,8 @@ export default {
 #btn_table{	background-image: url('/images/btn_table.png'); }
 #btn_settings{	background-image: url('/images/btn_settings.png'); }
 #btn_update{	background-image: url('/images/btn_update.png'); }
+#btn_min{	background-image: url('/images/btn_min.png'); }
 #btn_close{	background-image: url('/images/btn_close.png'); }
-
 
 .date_input{
   border-radius: 5px;
@@ -167,7 +187,7 @@ export default {
   float: left;
   background-color: #222;
   color: #aaa;
-  width: 48px;
+  width: 60px;
   height: 24px;
   display: block;
   font-size: 12px;
@@ -175,7 +195,13 @@ export default {
   line-height: 24px;
   border: 0px;
 
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  text-align-last:center;
   -webkit-appearance: button;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .date_filter option {background-color: #000;}
 
