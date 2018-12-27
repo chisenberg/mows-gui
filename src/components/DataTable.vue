@@ -64,13 +64,13 @@ export default {
   data: function() {
 
     return { 
-        arrayData: []
+      arrayData: []
     };
 
   },
 
   mounted: function() {
-   
+    this.arrayData = this.data;
   },
   
   methods: {

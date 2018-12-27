@@ -2,7 +2,7 @@
   <div id="app">
 
     <!-- Top Bar -->
-    <top-bar @update="updateDates" v-if="ready"/>
+    <top-bar @date-update="updateDates" @tab-update="updateTab" v-if="ready"/>
 
     <!-- Main Content -->
     <div class="content">
@@ -17,10 +17,10 @@
         <box title="Previsão" color="#18afd5" value="?"/>
       </div>
       
-      <!-- <div id="chart_container">
+      <div id="chart_container" v-if="activeTab == 'graph'">
         <graph :data="responseData"/>
-      </div> -->
-      <div id="table_container">
+      </div>
+      <div id="table_container" v-if="activeTab == 'table'">
         <data-table :data="responseData"/>
       </div>
 
@@ -53,7 +53,7 @@ export default {
       dates: {
         start: null,
         end: null,
-        filter: 'hours'
+        filter: ''
       },
 
       boxValues: {
@@ -65,6 +65,7 @@ export default {
         humidMax: null,
       },           
 
+      activeTab: '',
       responseData: [],
       api: null,
       ready: false,
@@ -95,6 +96,10 @@ export default {
       this.refresh();
     },
 
+    updateTab(newTab) {
+      this.activeTab = newTab;
+    },
+
     refresh () {
       var self = this;
       this.api.get('/now')
@@ -122,7 +127,7 @@ export default {
       .then((response) => {
         this.responseData = response.data;
       });
-    }
+    },
     
   }
 };

@@ -2,16 +2,27 @@
   <div id='bar'>
 
     <div id="btn_box_left">
-      <div class="btn btn_selected" id="btn_graph"></div>
-      <div class="btn" id="btn_table"></div>
-      <div class="btn" id="btn_settings"></div>
+      
+      <div class="btn" id="btn_graph" 
+        @click="setTab('graph')"
+        :class="{ btn_selected: activeTab == 'graph' }">
+      </div>
+      <div class="btn" id="btn_table"
+        @click="setTab('table')"
+        :class="{ btn_selected: activeTab == 'table' }">
+      </div>
+      <div class="btn" id="btn_settings" 
+        @click="setTab('settings')"
+        :class="{ btn_selected: activeTab == 'settings' }">
+      </div>
+
       <div class='btn_date'>
-        <select id='datepreset' class='date_filter'>
-          <option value='hoje'>hoje</option>
-          <option value='2dias'>2 dias</option>
-          <option value='7dias'>7 dias</option>
-          <option value='30dias'>30 dias</option>
-          <option value='outro'>outro?</option>
+        <select id='datepreset' class='date_filter' v-model="preset" @change="setPreset">
+          <option value='today'>hoje</option>
+          <option value='2days'>2 dias</option>
+          <option value='7days'>7 dias</option>
+          <option value='month'>mês</option>
+          <option value='custom'>outro?</option>
         </select>
       </div>
       <div class='btn_date'>
@@ -49,7 +60,9 @@ export default {
     return { 
         start: '',
         end: '',
-        filter: ''
+        filter: '',
+        activeTab: '',
+        preset: ''
     };
   },
 
@@ -57,16 +70,49 @@ export default {
     this.start = moment().subtract(1, 'days').format('DD/MM/YYYY');
     this.end = moment().format('DD/MM/YYYY');
     this.filter = 'hours';
+    this.preset = '2days';
     this.refresh();
+    this.setTab('graph');
   },
 
   methods: {
     refresh() {
-      this.$emit('update', {
+      this.$emit('date-update', {
         'start': this.start,
         'end': this.end,
-        'filter': this.filter
+        'filter': this.filter,
       });
+    },
+
+    setTab(newTab) {
+      this.activeTab = newTab;
+      this.$emit('tab-update', newTab);
+    },
+
+    setPreset() {
+      switch(this.preset) {
+        case 'today':
+          this.start = moment().format('DD/MM/YYYY');
+          this.end = moment().format('DD/MM/YYYY');
+          this.filter = 'hours';
+          break;
+        case '2days':
+          this.start = moment().subtract(1, 'days').format('DD/MM/YYYY');
+          this.end = moment().format('DD/MM/YYYY');
+          this.filter = 'hours';
+          break;
+        case '7days':
+          this.start = moment().subtract(6, 'days').format('DD/MM/YYYY');
+          this.end = moment().format('DD/MM/YYYY');
+          this.filter = 'days';
+          break;
+        case 'month':
+          this.start = moment().startOf('month').format('DD/MM/YYYY');
+          this.end = moment().format('DD/MM/YYYY');
+          this.filter = 'days';
+          break;
+      }
+      this.refresh();
     }
   }
 
