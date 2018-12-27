@@ -25,18 +25,18 @@
     <tbody>
       <tr v-for="row in arrayData" :key="row.formattedtime">
         <td>{{row.formattedtime}}</td>
-        <td>{{row.rain}}</td>
-        <td>{{row.temp_min}}</td>
-        <td>{{row.temp_max}}</td>
-        <td>{{row.temperature}}</td>
-        <td>{{row.humid_min}}</td>
-        <td>{{row.humid_max}}</td>
-        <td>{{row.humidity}}</td>
-        <td>{{row.press_min}}</td>
-        <td>{{row.press_max}}</td>
-        <td>{{row.pressure}}</td>
-        <td>{{row.wind_speed_max}}</td>
-        <td>{{row.wind_speed}}</td>
+        <td>{{row.rain || '---'}}</td>
+        <td>{{row.temp_min || '---'}}</td>
+        <td>{{row.temp_max || '---'}}</td>
+        <td>{{row.temperature || '---'}}</td>
+        <td>{{row.humid_min || '---'}}</td>
+        <td>{{row.humid_max || '---'}}</td>
+        <td>{{row.humidity || '---'}}</td>
+        <td>{{row.press_min || '---'}}</td>
+        <td>{{row.press_max || '---'}}</td>
+        <td>{{row.pressure || '---'}}</td>
+        <td>{{row.wind_speed_max || '---'}}</td>
+        <td>{{row.wind_speed || '---'}}</td>
       </tr>
     </tbody>
 

@@ -27,6 +27,8 @@ export default {
       rainData: [],
       tempData: [],
       humidData: [],
+      pressData: [],
+      windData: [],
     }
   },
 
@@ -43,11 +45,14 @@ export default {
       this.rainData = [];
       this.tempData = [];
       this.humidData = [];
+      this.pressData = [];
+      this.windData = [];
       newData.forEach((d, idx) => {
         this.timeLabels.push(d.formattedtime);
-        this.rainData.push(d.rain);
+        this.rainData.push(d.rain || d.temperature / 30);
         this.tempData.push(d.temperature);
         this.humidData.push(d.humidity);
+        this.windData.push(d.wind || d.humidity / 20);
       });
       this.redraw();
     },
@@ -65,6 +70,7 @@ export default {
             {
               label: 'Temperatura',
               type: 'line',
+              yAxisID: 0,
               fill: false,
               data: this.tempData,
               backgroundColor: '#1bf162',
@@ -73,43 +79,97 @@ export default {
             },{
               label: 'Umidade',
               type: 'line',
+              yAxisID: 1,
               fill: false,
               data: this.humidData,
               backgroundColor: '#fb8b27',
               borderColor: '#fb8b27',
-              borderWidth: 2
+              borderWidth: 2,
+              borderDash: [10,4]
             },{
               label: 'Pressão',
-              data: this.rainData,
+              yAxisID: 2,
+              data: this.pressData,
               backgroundColor: '#f13c38',
               borderColor: '#f13c38',
               borderWidth: 1
-            },{
+            },
+            {
               label: 'Vento',
-              data: this.rainData,
-              backgroundColor: '#ccc',
-              borderColor: '#ccc',
-              borderWidth: 1
-            },{
+              type: 'line',
+              fill: false,
+              yAxisID: 3,
+              data: this.windData,
+              borderColor: '#fff',
+              borderWidth: 1,
+              borderDash: [5,2]
+            },
+            {
               label: 'Chuva',
+              yAxisID: 4,
               data: this.rainData,
-              backgroundColor: '#18afd5',
+              backgroundColor: '#222',
               borderColor: '#18afd5',
-              borderWidth: 1
+              borderWidth: 2
             },
           ]
         },
         options: {
           scales: {
             xAxes: [{
-              maxBarThickness: 20,
-            }]
+              maxBarThickness: 30,
+              ticks: {
+                fontColor: '#ccc',
+              },
+            }],
+            yAxes: [
+              {
+                id: 0,
+                ticks: {
+                  fontColor: '#1bf162',
+                  suggestedMax: 35,
+                  suggestedMin: 16
+                },
+              },
+              {
+                id: 1,
+                ticks: {
+                  fontColor: '#fb8b27',
+                  suggestedMin: 0,
+                  suggestedMax: 100
+                },
+              },
+              {
+                id: 2,
+                position: 'right',
+                ticks: {
+                  fontColor: '#f13c38',
+                  suggestedMin: 0
+                },
+              },
+              {
+                id: 3,
+                position: 'right',
+                ticks: {
+                  fontColor: '#ccc',
+                  suggestedMin: 0
+                },
+              },
+              {
+                id: 4,
+                ticks: {
+                  fontColor: '#18afd5',
+                  suggestedMin: 0,
+                  suggestedMax: 10
+                },
+              }
+            ]
           },
           legend: {
             display: true,
             position: 'top',
             labels: {
-                fontColor: '#ccc'
+              fontColor: '#ccc'
             }
           }
         }

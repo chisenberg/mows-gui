@@ -29,7 +29,7 @@
 .box_title {
   background-color: #000;
   border-radius: 5px;
-  color: #ccc;
+  color: #fff;
   display: block;
   font-size: 11px;
   padding-top: 0px;
@@ -39,7 +39,7 @@
 }
 
 .box_value {
-  color: #ccc;
+  color: #ddd;
   display: block;
   font-size: 26px;
   font-weight: normal;
@@ -49,7 +49,7 @@
   text-shadow: 1px 1px 3px #111;
 }
 .box_value_small {
-  color: #ccc;
+  color: #ddd;
   display: block;
   font-size: 26px;
   font-weight: normal;
@@ -60,7 +60,7 @@
 }
 
 .box_value_sub {
-  color: #aaa;
+  color: #ccc;
   float: left;
   display: block;
   font-size: 12px;

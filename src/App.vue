@@ -10,8 +10,14 @@
       <!-- Left boxes -->
       <div id="box_container">
         <box title="Chuva mm" color="#18afd5" value="0"/>
-        <box title="Temp °C" color="#1bf162" :value="boxValues.temp" :min="boxValues.tempMin" :max="boxValues.tempMax"/>
-        <box title="Umidade %" color="#fb8b27" :value="boxValues.humid" :min="boxValues.humidMin" :max="boxValues.humidMax"/>
+        <box title="Temp °C" color="#1bf162" 
+          :value="boxValues.temp"
+          :min="boxValues.tempMin"
+          :max="boxValues.tempMax"/>
+        <box title="Umidade %" color="#fb8b27"
+          :value="boxValues.humid"
+          :min="boxValues.humidMin"
+          :max="boxValues.humidMax"/>
         <box title="Press mmHg" color="#f13c38" value="0" min="--" max="--"/>
         <box title="Vento Km/h" color="#ccc" value="0" min="0" max="--"/>
         <box title="Previsão" color="#18afd5" value="?"/>
@@ -160,14 +166,16 @@ body {
 #chart_container{
   display: block;
   float:left;
-  width:	 calc(100% - 98px);
+  width:	 calc(100% - 90px);
   height: 100%;
 }
 
 #table_container{
 	display: block;
 	float:left;
-	width:	 calc(100% - 88px);
+  margin-top: 2px;
+  margin-right: 5px;
+	width: calc(100% - 94px);
 	height: calc(100% - 36px);
 	overflow-y: auto;
 }

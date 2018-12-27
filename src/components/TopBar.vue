@@ -21,7 +21,8 @@
           <option value='today'>hoje</option>
           <option value='2days'>2 dias</option>
           <option value='7days'>7 dias</option>
-          <option value='month'>mês</option>
+          <option value='1month'>mês</option>
+          <option value='2month'>-1 mês</option>
           <option value='custom'>outro?</option>
         </select>
       </div>
@@ -31,7 +32,6 @@
       </div>
       <div class='btn_date'>
         <select id='datefilter' class='date_filter' v-model="filter" @change="refresh">
-          <option value='mins'>10min</option>
           <option selected value='hours'>horas</option>
           <option value='days'>dias</option>
           <option value='months'>meses</option>
@@ -76,6 +76,7 @@ export default {
   },
 
   methods: {
+    
     refresh() {
       this.$emit('date-update', {
         'start': this.start,
@@ -106,9 +107,14 @@ export default {
           this.end = moment().format('DD/MM/YYYY');
           this.filter = 'days';
           break;
-        case 'month':
+        case '1month':
           this.start = moment().startOf('month').format('DD/MM/YYYY');
           this.end = moment().format('DD/MM/YYYY');
+          this.filter = 'days';
+          break;
+        case '2month':
+          this.start = moment().subtract(1,'months').startOf('month').format('DD/MM/YYYY');
+          this.end = moment().subtract(1,'months').endOf('month').format('DD/MM/YYYY');
           this.filter = 'days';
           break;
       }
