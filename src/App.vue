@@ -81,8 +81,8 @@ export default {
   mounted() {
 
     this.api = axios.create({
-      //baseURL: 'http://192.168.25.2/api',
-      baseURL: 'http://mows.chis.com.br/api',
+      baseURL: 'http://192.168.25.2/api',
+      // baseURL: 'http//mows.chis.com.br/api',
     });
 
     // last thing during mount

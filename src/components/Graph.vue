@@ -90,6 +90,7 @@ export default {
               label: 'Pressão',
               yAxisID: 2,
               data: this.pressData,
+              hidden: true,
               backgroundColor: '#f13c38',
               borderColor: '#f13c38',
               borderWidth: 1
@@ -100,6 +101,7 @@ export default {
               fill: false,
               yAxisID: 3,
               data: this.windData,
+              hidden: true,
               borderColor: '#fff',
               borderWidth: 1,
               borderDash: [5,2]
@@ -108,6 +110,7 @@ export default {
               label: 'Chuva',
               yAxisID: 4,
               data: this.rainData,
+              hidden: true,
               backgroundColor: '#222',
               borderColor: '#18afd5',
               borderWidth: 2
